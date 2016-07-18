@@ -1,10 +1,10 @@
-# Px-Context-Browser [![Build Status](https://travis-ci.org/PredixDev/px-context-browser.svg?branch=master)](https://travis-ci.org/PredixDev/px-context-browser)
+# px-context-navigation-panel [![Build Status](https://travis-ci.org/PredixDev/px-context-navigation-panel.svg?branch=master)](https://travis-ci.org/PredixDev/px-context-navigation-panel)
 
-Px-Context-Browser is a navigation tree navigation component.
+px-context-navigation-panel is a single panel navigation component.
 
 ## Overview
 
-Px-Context-Browser is a hierarchical tree navigation component that uses horizontally cascading lists in columns to allow multiple levels of the hierarchy to be open at once, and provide a visual representation of the current location. Menu items that are `openable` are given an Open button that upon selection chooses the item and closes the navigation, returning it to it's initial state: A drop-down and breadcrumb that display the menu's last-selected state.
+px-context-navigation-panel is a hierarchical tree navigation component that uses a single panel of cascading lists in columns to allow multiple levels of the hierarchy to be open at once, and provide a visual representation of the current location. Menu items that are `openable` are given an Open button that upon selection chooses the item and closes the navigation, returning it to it's initial state: A drop-down and breadcrumb that display the menu's last-selected state.
 
 ## Usage
 
@@ -21,20 +21,20 @@ Node, npm and bower are necessary to install the component and dependencies. web
 First, install the component via bower on the command line.
 
 ```
-bower install px-context-browser --save
+bower install px-context-navigation-panel --save
 ```
 
 Second, import the component to your application with the following tag in your head.
 
 ```
-<link rel="import" href="/bower_components/px-context-browser/px-context-browser.html"/>
+<link rel="import" href="/bower_components/px-context-navigation-panel/px-context-navigation-panel.html"/>
 ```
 
 Finally, use the component in your application:
 
 ```
 <iron-ajax url="<URL.json>" last-response="{{browserContext}}" auto></iron-ajax>
-<px-context-browser browserContext={{browserContext}}></px-context-browser>
+<px-context-navigation-panel browserContext={{browserContext}}></px-context-navigation-panel>
 ```
 
 <br />
@@ -42,7 +42,7 @@ Finally, use the component in your application:
 
 ## documentation
 
-Read the full API and view the demo [here](https://predixdev.github.io/px-context-browser).
+Read the full API and view the demo [here](https://predixdev.github.io/px-context-navigation-panel).
 
 ## Local Development
 
@@ -81,10 +81,3 @@ $ grunt devmode
 
 ### GE Coding Style Guide
 [GE JS Developer's Guide](https://github.com/GeneralElectric/javascript)
-
-<br />
-<hr />
-
-## Known Issues
-
-Please use [Github Issues](https://github.com/PredixDev/px-context-browser/issues) to submit any bugs you might find.

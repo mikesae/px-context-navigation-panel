@@ -1,8 +1,8 @@
 {
-  "name": "px-context-browser",
+  "name": "px-context-navigation-panel",
   "version": "0.10.0",
   "main": [
-    "px-context-browser.html"
+    "px-context-navigation-panel.html"
   ],
   "ignore": [
     ".*",

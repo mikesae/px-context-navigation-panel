@@ -1,7 +1,7 @@
 {
-    "id": "px-context-browser",
-    "name": "Context Browser",
-    "type": "px-context-browser",
+    "id": "px-context-navigation-panel",
+    "name": "Context Navigation Panel",
+    "type": "px-context-navigation-panel",
     "schema": {
         "type": "object",
         "properties": {

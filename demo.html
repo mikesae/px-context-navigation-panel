@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>px-context-browser Demo</title>
+  <title>px-context-navigation-panel Demo</title>
   <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
   <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
   <!-- for demo only...never do this. Rely on Angular $q if using angular or load this via amd or other loader -->
@@ -9,7 +9,7 @@
   <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
   <link rel="import" href="../px-theme/px-theme.html"/>
   <link rel="import" href="../iron-ajax/iron-ajax.html" />
-  <link rel="import" href="px-context-browser.html"/>
+  <link rel="import" href="px-context-navigation-panel.html"/>
   <style is="x-style">
     html {
       height: 100%;
@@ -42,12 +42,12 @@
 
     <iron-ajax url="directContext.json" last-response="{{browserContext}}" auto></iron-ajax>
     <!-- <iron-ajax url="directContext.json" last-response="{{browserContext}}" auto></iron-ajax> -->
-    <px-context-browser
+    <px-context-navigation-panel
       label-field="name"
       id-field="identifier"
       browser-context="{{browserContext}}"
       show-chevron="true">
-    </px-context-browser>
+    </px-context-navigation-panel>
   </template>
   <script>
 
@@ -87,7 +87,7 @@
   }
 
   window.addEventListener('WebComponentsReady', function() {
-    var colBrowser = document.querySelector('px-context-browser');
+    var colBrowser = document.querySelector('px-context-navigation-panel');
     colBrowser.handlers = {
       getChildren: function(parent, newIndex) {
         return demoGetChildren(parent);

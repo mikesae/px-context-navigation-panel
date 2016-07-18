@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>px-context-browser Demo</title>
+  <title>px-context-navigation-panel Demo</title>
   <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
   <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
   <!-- for demo only...never do this. Rely on Angular $q if using angular or load this via amd or other loader -->
@@ -13,11 +13,11 @@
   <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
   <link rel="import" href="../bower_components/px-theme/px-theme.html"/>
   <!-- <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html" /> -->
-  <link rel="import" href="../px-context-browser.html"/>
+  <link rel="import" href="../px-context-navigation-panel.html"/>
   <!-- This script link will contain the generated script for basic wct test cases -->
-  <script src="px-context-browser-base-tests.js"></script>
+  <script src="px-context-navigation-panel-base-tests.js"></script>
   <!-- This script link will contain the generated script stub for custom, developer-added test cases -->
-  <script src="px-context-browser-custom-tests.js"></script>
+  <script src="px-context-navigation-panel-custom-tests.js"></script>
   <style is="x-style">
     html {
       height: 100%;
@@ -37,11 +37,11 @@
 </head>
 
 <body>
-    <px-context-browser
-      id="px_context_browser_1"
+    <px-context-navigation-panel
+      id="px_context_navigation_panel_1"
       label-field="name"
       id-field="identifier"
       show-chevron="true">
-    </px-context-browser>
+    </px-context-navigation-panel>
 </body>
 </html>

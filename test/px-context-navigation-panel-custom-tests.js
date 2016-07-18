@@ -1,11 +1,11 @@
 // This is the wrapper for custom tests, called upon web components ready state
 function runCustomTests() {
-  var selectContext = Polymer.dom(document).querySelector('#px_context_browser_1');
+  var selectContext = Polymer.dom(document).querySelector('#px_context_navigation_panel_1');
   var contextExpanded = false;
   // This is the placeholder suite to place custom tests in
   // Use testCase(options) for a more convenient setup of the test cases
 
-  suite('Custom Automation Tests for px-context-browser', function() {
+  suite('Custom Automation Tests for px-context-navigation-panel', function() {
     var topmostSelectLabel = selectContext.querySelector('h1 span').innerHTML;
 
     test('Check that clicking on the header expands the context path area', function(done) {

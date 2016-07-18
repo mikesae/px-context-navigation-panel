@@ -28,6 +28,6 @@ module.exports = {
     }
   },
   suites: [
-    'test/px-context-browser-test-fixture.html'
+    'test/px-context-navigation-panel-test-fixture.html'
   ]
 };
