@@ -109,10 +109,10 @@
 				//$('.wrap .demo-container').prepend('<div class="geCore__NavigationPanel__Footer"><button class="geCore__NavigationPanel__Footer__Cancel">Cancel</button><button class="geCore__NavigationPanel__Footer__Set">Set Context</button></div>');
 
 				// html for the document icon button
-				var backButton = '<button class="btn btn-navigate-back"><i class="geip-icon-ico_lite-arrow-prev_sm ' + defaults.classIcon + '"></i></button>';
+				var backButton = '<button class="btn btn-navigate-back"><i class="fa fa-angle-left ' + defaults.classIcon + '"></i></button>';
 
 				// html for the > button
-				var arrowButton = '<button class="btn btn-navigate"><i class="geip-icon-ico_lite-arrow-next_sm"></i></button>';
+				var arrowButton = '<button class="btn btn-navigate"><i class="fa fa-angle-right"></i></button>';
 
 				// prepends the header before the drilldown
 				$($dcDrilldownObj).before($header);

@@ -24,7 +24,7 @@ module.exports = function (grunt) {
         dist: {
           files: {
             'css/noprefix/px-context-navigation-panel-sketch.css': 'sass/px-context-navigation-panel-sketch.scss',
-            'css/noprefix/px-context-navigation-panel.css': 'sass/px-context-navigation-panel-predix.scss'
+            'css/noprefix/px-context-navigation-panel.css': 'sass/px-context-navigation-panel.scss'
           }
         }
       },
@@ -71,11 +71,11 @@ module.exports = function (grunt) {
         }
       },
 
-        depserve: {
-            options: {
-                open: '<%= depserveOpenUrl %>'
-            }
-        }
+      depserve: {
+          options: {
+              open: '<%= depserveOpenUrl %>'
+          }
+      }
     });
 
     grunt.loadNpmTasks('grunt-sass');

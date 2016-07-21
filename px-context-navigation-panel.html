@@ -6,7 +6,7 @@
 <!--suppress HtmlUnknownTarget -->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-spinner/px-spinner.html"/>
-<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
 <script src="../jquery.dcdrilldown.1.2.js"></script>
 <style>
   [dir=rtl] .fa.px-context-navigation-panel {
@@ -59,7 +59,7 @@ Define how your data will come in using these methods:
 @demo demo.html
 -->
 <dom-module id="px-context-navigation-panel">
-  <link rel="stylesheet" type="css" href="css/px-context-navigation-panel.css" polyfill-next-selector/>
+  <link rel="import" type="css" href="css/px-context-navigation-panel.css" polyfill-next-selector/>
   <template>
     <div id="modal" on-click="toggleColumnBrowser" class$="{{isItemHidden(showColumnBrowser)}}"></div>
     <div id="back">
@@ -83,17 +83,16 @@ Define how your data will come in using these methods:
         <div id="ruler" class$="{{isItemHidden(showColumnBrowser)}} flex flex--col">
           <div class$="{{isItemHidden(showColumnBrowser)}} flex flex--col">
             <ul class="breadcrumbs list-inline list-inline--delimited u-pv-">
-              <template is="dom-repeat" id="breadcrumbs" items="{{parentNodes}}">
+              <template is="dom-repeat" id="breadcrumbs" items="{{breadcrumbStack}}">
                 <li class$="u-pv--">
                   <span class="breadcrumb" on-click="handleBreadcrumbClick">{{item.name}}</span>
                 </li>
               </template>
             </ul>
-
-            <div id="columnBrowser">
-              <px-spinner finished></px-spinner>
-              <div class="demo-container"/>
-            </div>
+            <div class="wrap">
+              <div class="demo-container" id="columnBrowser">
+                <px-spinner finished></px-spinner>
+              </div>
           </div>
           <!-- Avoid ruler being part of the structure but being within a container that can enforce its relative size -->
           <div class="ruler">
@@ -104,6 +103,7 @@ Define how your data will come in using these methods:
         </div>
       </div>
     </div>
+      </div>
   </template>
 </dom-module>
 
@@ -267,6 +267,52 @@ Define how your data will come in using these methods:
           type: Boolean,
           value: false,
           reflectToAttribute: true
+        },
+
+        /**
+         * @private
+         ***/
+        _ctlSelector: {
+          type: Object,
+          readOnly: true
+        },
+        /**
+         * @private
+         **/
+        firstAsset: {
+          type: String,
+          readOnly: true
+        },
+
+        /**
+         * @private
+         **/
+        jqElementId: {
+          type: String,
+          value: 'columnBrowser',
+          readOnly: true
+        },
+
+        /**
+         * @private
+         **/
+        selectedOnCurrentLevel: {
+          type: Boolean,
+          value: false,
+          readOnly: true
+        },
+
+        /**
+         * my breadcrumb stack
+         * @type {Array}
+         * @default []
+         * @private
+         */
+        breadcrumbStack: {
+          type: Array,
+          value: function () {
+            return [];
+          }
         }
       },
       ready: function () {
@@ -283,6 +329,11 @@ Define how your data will come in using these methods:
             }
           }
         }, 0);
+
+        // When using third-party libraries that do not use the Polymer DOM API,
+        // use the scopeSubtree method to apply proper CSS scoping to a node and all of its descendants.
+        // from https://www.polymer-project.org/1.0/docs/devguide/styling#scope-subtree
+        this.scopeSubtree(this.$.columnBrowser, true);
       },
 
       /**
@@ -304,12 +355,6 @@ Define how your data will come in using these methods:
       isItemHidden: function (item) {
         return (!item) ? "visuallyhidden" : '';
       },
-
-      /**
-       * @private
-       * **/
-      $ctl: null,
-
       /**
        * Observer on context attribute. loads up the initial Context of the browser.
        *
@@ -327,7 +372,7 @@ Define how your data will come in using these methods:
           {from: 'n02', to: 'n22', displayName: 'Valve C'}
         ];
 
-        _this.$ctl = $(Polymer.dom(_this.root).querySelector('#columnBrowser'));
+        _this._set_ctlSelector($(Polymer.dom(_this.root).querySelector('#columnBrowser')));
         _this.updateDataProperty(rows, _this.jqElementId,
           {
             IDField: 'to',
@@ -337,8 +382,8 @@ Define how your data will come in using these methods:
           })
       },
 
-      adjustForScrollbar: function() {
-        $('.dd-wrapper .dd-menu', this.$ctl).first().each(function() {
+      adjustForScrollbar: function () {
+        $('.dd-wrapper .dd-menu', this._ctlSelector).first().each(function () {
           if (this.scrollHeight > this.clientHeight) {
             $(this).addClass('dd-menu-scroll');
           } else {
@@ -354,8 +399,8 @@ Define how your data will come in using these methods:
         var _this = this;
 
         if (rows) {
-          _this.$ctl.empty();
-          _this.$ctl.append('<ul id="' + domElementId + '-list"></ul>');
+          _this._ctlSelector.empty();
+          _this._ctlSelector.append('<ul id="' + domElementId + '-list"></ul>');
           var list = $('#' + domElementId + '-list');
 
           var IDFieldName = widgetProperties.IDField;
@@ -376,31 +421,12 @@ Define how your data will come in using these methods:
         }
       },
 
-      /**
-       * @private
-       **/
-      firstAsset: null,
-
-      /**
-       * @private
-       **/
-      jqElementId: 'columnBrowser',
-
-      /**
-       * @private
-       **/
-      selectedOnCurrentLevel: false,
-
-      /**
-       * @private
-       **/
-      breadcrumbStack: [],
 
       /**
        * @private
        **/
       popBreadcrumb: function () {
-        var breadcrumb = this.breadcrumbStack.pop();
+        var breadcrumb = this.pop('breadcrumbStack');
         this.adjustForScrollbar();
         return breadcrumb;
       },
@@ -409,7 +435,7 @@ Define how your data will come in using these methods:
        * @private
        **/
       pushBreadcrumb: function (name, id) {
-        this.breadcrumbStack.push({name: name, id: id});
+        this.push('breadcrumbStack', {name: name, id: id});
         this.adjustForScrollbar();
       },
 
@@ -495,7 +521,7 @@ Define how your data will come in using these methods:
        **/
       createControl: function () {
         var _this = this;
-        var $ctlList = $('#' + _this.jqElementId + '-list', _this.$ctl);
+        var _ctlSelectorList = $('#' + _this.jqElementId + '-list', _this._ctlSelector);
 
         _this.contextClickHandler();
 
@@ -512,7 +538,7 @@ Define how your data will come in using these methods:
           $selectedElements.addClass('selected');
         };
 
-        $ctlList.dcDrilldown(
+        _ctlSelectorList.dcDrilldown(
           {
             showCount: false,
             showHeader: false,
@@ -522,7 +548,7 @@ Define how your data will come in using these methods:
             includeHdr: false
           });
 
-        selectElementsOf('#' + _this.firstAsset + '.drilldownitem', _this.$ctl);
+        selectElementsOf('#' + _this.firstAsset + '.drilldownitem', _this._ctlSelector);
 
         // hover effect where the icon changes
         $('.drilldownitem').on("mouseover touchstart", function () {
@@ -533,16 +559,16 @@ Define how your data will come in using these methods:
           $(this).find('.btn .icon-ico_chevron_left_sm').toggleClass("geip-icon-ico_lite-arrow-prev_sm").toggleClass("icon-ico_chevron_left_sm");
         });
 
-        $('.drilldownitem > li', _this.$ctl).click(function (event) {
+        $('.drilldownitem > li', _this._ctlSelector).click(function (event) {
           var node = event.currentTarget.parentNode;
 
           _this.contextClickHandler();
-          selectElementsOf('#' + node.id + '.drilldownitem', _this.$ctl);
+          selectElementsOf('#' + node.id + '.drilldownitem', _this._ctlSelector);
         });
 
         var mseDownNavButton = false;
 
-        $('.drilldownitem.dd-parent-a > .btn.btn-navigate', _this.$ctl)
+        $('.drilldownitem.dd-parent-a > .btn.btn-navigate', _this._ctlSelector)
           .click(function (event) {
             var itemName = event.currentTarget.parentElement.innerText;
             if (_this.selectedOnCurrentLevel) {
@@ -575,11 +601,11 @@ Define how your data will come in using these methods:
           mseDownNavButton = false;
         });
 
-        $('.btn.btn-navigate-back', _this.$ctl).click(function () {
-          window.setTimeout(_this.popBreadcrumb, 200);
+        $('.btn.btn-navigate-back', _this._ctlSelector).click(function () {
+          window.setTimeout(this.popBreadcrumb, 200);
         });
 
-        $('.drilldownitem li', _this.$ctl)
+        $('.drilldownitem li', _this._ctlSelector)
           .mouseenter(function () {
             var element = $(this);
 
