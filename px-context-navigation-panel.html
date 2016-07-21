@@ -83,7 +83,7 @@ Define how your data will come in using these methods:
         <div id="ruler" class$="{{isItemHidden(showColumnBrowser)}} flex flex--col">
           <div class$="{{isItemHidden(showColumnBrowser)}} flex flex--col">
             <ul class="breadcrumbs list-inline list-inline--delimited u-pv-">
-              <template is="dom-repeat" id="breadcrumbs" items="{{breadcrumbStack}}">
+              <template is="dom-repeat" id="breadcrumbs" items="{{_breadcrumbStack}}">
                 <li class$="u-pv--">
                   <span class="breadcrumb" on-click="handleBreadcrumbClick">{{item.name}}</span>
                 </li>
@@ -91,7 +91,7 @@ Define how your data will come in using these methods:
             </ul>
             <div class="wrap">
               <div class="demo-container" id="columnBrowser">
-                <px-spinner finished></px-spinner>
+                <px-spinner id="theSpinner">finished></px-spinner>
               </div>
           </div>
           <!-- Avoid ruler being part of the structure but being within a container that can enforce its relative size -->
@@ -99,7 +99,7 @@ Define how your data will come in using these methods:
             <!-- Use this as a ruler/measuring-stick to measure the true minimum width. -->
           </div>
           <!-- this overlay is for the spinner -->
-          <div class="overlay"></div>
+          <div class="overlay" id ="theOverlay"></div>
         </div>
       </div>
     </div>
@@ -279,7 +279,7 @@ Define how your data will come in using these methods:
         /**
          * @private
          **/
-        firstAsset: {
+        _firstAsset: {
           type: String,
           readOnly: true
         },
@@ -287,18 +287,9 @@ Define how your data will come in using these methods:
         /**
          * @private
          **/
-        jqElementId: {
+        _jqElementId: {
           type: String,
           value: 'columnBrowser',
-          readOnly: true
-        },
-
-        /**
-         * @private
-         **/
-        selectedOnCurrentLevel: {
-          type: Boolean,
-          value: false,
           readOnly: true
         },
 
@@ -308,7 +299,7 @@ Define how your data will come in using these methods:
          * @default []
          * @private
          */
-        breadcrumbStack: {
+        _breadcrumbStack: {
           type: Array,
           value: function () {
             return [];
@@ -363,17 +354,21 @@ Define how your data will come in using these methods:
       contextChanged: function () {
         var _this = this;
         var rows = [
-          {from: '', to: 'n0', displayName: 'Pump Station'},
-          {from: 'n0', to: 'n00', displayName: 'Pump #1'},
-          {from: 'n0', to: 'n01', displayName: 'Pump #2'},
-          {from: 'n0', to: 'n02', displayName: 'Pump #3'},
-          {from: 'n02', to: 'n20', displayName: 'Valve A'},
-          {from: 'n02', to: 'n21', displayName: 'Valve B'},
-          {from: 'n02', to: 'n22', displayName: 'Valve C'}
+          {from: '', to: 'n0', displayName: 'Finished Water Pump Station'},
+          {from: 'n0', to: 'n00', displayName: 'Displacement Pump 1A'},
+          {from: 'n0', to: 'n01', displayName: 'Displacement Pump 1B'},
+          {from: 'n0', to: 'n02', displayName: 'Displacement Pump 1C'},
+          {from: 'n0', to: 'n03', displayName: 'Displacement Pump 1D'},
+          {from: 'n0', to: 'n04', displayName: 'StorageTank 1'},
+          {from: 'n0', to: 'n05', displayName: 'Suction Valve A'},
+          {from: 'n0', to: 'n06', displayName: 'Suction Valve B'},
+          {from: 'n0', to: 'n07', displayName: 'Suction Valve C'},
+          {from: 'n0', to: 'n08', displayName: 'Suction Valve D'},
+
         ];
 
         _this._set_ctlSelector($(Polymer.dom(_this.root).querySelector('#columnBrowser')));
-        _this.updateDataProperty(rows, _this.jqElementId,
+        _this.updateDataProperty(rows, _this._jqElementId,
           {
             IDField: 'to',
             ParentIDField: 'from',
@@ -426,7 +421,7 @@ Define how your data will come in using these methods:
        * @private
        **/
       popBreadcrumb: function () {
-        var breadcrumb = this.pop('breadcrumbStack');
+        var breadcrumb = this.pop('_breadcrumbStack');
         this.adjustForScrollbar();
         return breadcrumb;
       },
@@ -435,7 +430,7 @@ Define how your data will come in using these methods:
        * @private
        **/
       pushBreadcrumb: function (name, id) {
-        this.push('breadcrumbStack', {name: name, id: id});
+        this.push('_breadcrumbStack', {name: name, id: id});
         this.adjustForScrollbar();
       },
 
@@ -444,7 +439,7 @@ Define how your data will come in using these methods:
        **/
       setContext: function (assetLabel) {
         var path = '';
-        _(this.breadcrumbStack).forEach(function (item) {
+        this._breadcrumbStack.forEach(function (item) {
           path += item.name + ' > ';
         });
         path += assetLabel;
@@ -492,7 +487,7 @@ Define how your data will come in using these methods:
                 _this.setContext(label);
                 _this.selectItem(label);
               }
-              _this.firstAsset = nodeId;
+              _this._set_firstAsset(nodeId);
             }
 
             newNode.appendTo(appendObj);
@@ -521,7 +516,7 @@ Define how your data will come in using these methods:
        **/
       createControl: function () {
         var _this = this;
-        var _ctlSelectorList = $('#' + _this.jqElementId + '-list', _this._ctlSelector);
+        var ctlSelectorList = $('#' + _this._jqElementId + '-list', _this._ctlSelector);
 
         _this.contextClickHandler();
 
@@ -538,7 +533,7 @@ Define how your data will come in using these methods:
           $selectedElements.addClass('selected');
         };
 
-        _ctlSelectorList.dcDrilldown(
+        ctlSelectorList.dcDrilldown(
           {
             showCount: false,
             showHeader: false,
@@ -547,8 +542,7 @@ Define how your data will come in using these methods:
             linkType: 'backButton',
             includeHdr: false
           });
-
-        selectElementsOf('#' + _this.firstAsset + '.drilldownitem', _this._ctlSelector);
+        selectElementsOf('#' + _this._firstAsset + '.drilldownitem', _this._ctlSelector);
 
         // hover effect where the icon changes
         $('.drilldownitem').on("mouseover touchstart", function () {
@@ -571,10 +565,7 @@ Define how your data will come in using these methods:
         $('.drilldownitem.dd-parent-a > .btn.btn-navigate', _this._ctlSelector)
           .click(function (event) {
             var itemName = event.currentTarget.parentElement.innerText;
-            if (_this.selectedOnCurrentLevel) {
-              _this.popBreadcrumb();
-            }
-            _this.selectedOnCurrentLevel = false;
+            _this.popBreadcrumb();
             _this.pushBreadcrumb(itemName, event.currentTarget.parentElement.id);
             mseDownNavButton = false;
           })
@@ -617,7 +608,7 @@ Define how your data will come in using these methods:
 
         // listener for closing the context selector if it's open and you click outside of it
         $(document).on("mouseup touchend", function (e) {
-          var container = $('#' + _this.jqElementId);
+          var container = $('#' + _this._jqElementId);
           var container2 = $('.nav.nav-list li');
 
           if ((!container.is(e.target) // if the target of the click isn't the container...
@@ -635,9 +626,11 @@ Define how your data will come in using these methods:
        * @private
        */
       spinner: function (state) {
-        var columnBrowser = this.$.columnBrowser,
-          spinner = Polymer.dom(columnBrowser).querySelector('px-spinner'),
-          overlay = Polymer.dom(columnBrowser).querySelector('.overlay');
+//        var columnBrowser = this.$.columnBrowser,
+//          spinner = Polymer.dom(columnBrowser).querySelector('px-spinner'),
+//          overlay = Polymer.dom(columnBrowser).querySelector('.overlay');
+        var spinner = this.$.theSpinner;
+        var overlay = this.$.theOverlay;
         if (state === 'show') {
           spinner.set('finished', false);
           overlay.style.display = 'block';

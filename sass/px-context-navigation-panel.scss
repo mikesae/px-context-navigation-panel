@@ -1,5 +1,3 @@
-@import "px-context-navigation-panel-sketch";
-
 $listItemButtonWidth: 30px;
 $listItemArrowOffset: 60px;
 $listItemHeight: 38px;
@@ -14,7 +12,7 @@ $white: #ffffff;
 $btnHoverColor: #575757;
 $layoutPanelBackgroundColor: rgba(20, 20, 20, 0.7);
 $layoutItemActiveBackgroundColor: rgba(0, 54, 102, 0.7);
-$iconFontSize: 20px;
+$iconFontSize: 28px;
 $GEInspira: "ge-inspira";
 
 @mixin no-select() {
@@ -85,6 +83,11 @@ $GEInspira: "ge-inspira";
   font-family: $GEInspira, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+ul#columnBrowser-list {
+  -webkit-padding-start: 0;
+  -moz-padding-start: 0;
+}
+
 .dd-wrapper {
   background: #2B2B2B;
   color: #222;
@@ -112,7 +115,6 @@ $GEInspira: "ge-inspira";
     ul {
       margin: 0;
       padding: 0;
-      position: absolute;
       top: 0;
       right: 0;
     }
@@ -162,6 +164,8 @@ $GEInspira: "ge-inspira";
     }
     i {
       font-size: $iconFontSize;
+      font-weight: bold;
+      line-height: $iconFontSize - 6px;
     }
   }
   .btn-prev {
@@ -427,4 +431,10 @@ $footerPadding: 0 0 0 16px;
 
 .drilldownitem .btn i:hover {
   color: #3693F8;
+}
+
+.column-browser-container {
+  ul, li {
+    list-style: none;
+  }
 }
