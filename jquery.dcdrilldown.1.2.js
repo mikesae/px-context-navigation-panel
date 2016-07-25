@@ -234,7 +234,7 @@
 			$(activeLink).addClass(defaults.classActive);
 			$('> ul li', element).show();
 			$('> ul', element).show();
-			$('> ul', element).animate({"margin-right": 0}, defaults.speed);
+			$('> ul', element).animate({"margin-left": 0}, defaults.speed);
 
 			// Find all sibling items & hide
 			var $siblingsLi = $(element).siblings();
@@ -269,15 +269,15 @@
 			if (defaults.linkType === "link") {
 				if ($('div.' + defaults.classActive + ':last', obj).parent('li').length) {
 					var lastActive = $('div.' + defaults.classActive + ':last', obj).parent('li');
-					$('ul', lastActive).css('margin-right', -totalWidth + 'px');
+					$('ul', lastActive).css('margin-left', totalWidth + 'px');
 					$('ul', lastActive).hide();
 
 				} else {
-					$('ul', obj).css('margin-right', -totalWidth + 'px');
+					$('ul', obj).css('margin-left', totalWidth + 'px');
 					$('ul', obj).hide();
 				}
 			} else {
-				$('ul', obj).css('margin-right', -totalWidth + 'px');
+				$('ul', obj).css('margin-left', totalWidth + 'px');
 				$('ul', obj).hide();
 			}
 			updateHeader($header, defaults.defaultText);
