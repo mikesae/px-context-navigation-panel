@@ -6,7 +6,7 @@
 <!--suppress HtmlUnknownTarget -->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-spinner/px-spinner.html"/>
-<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="../jquery/dist/jquery.js"></script>
 <script src="../jquery.dcdrilldown.1.2.js"></script>
 <style>
   [dir=rtl] .fa.px-context-navigation-panel {
@@ -360,6 +360,8 @@ Define how your data will come in using these methods:
           {from: 'n0', to: 'n02', displayName: 'Displacement Pump 1C'},
           {from: 'n0', to: 'n03', displayName: 'Displacement Pump 1D'},
           {from: 'n0', to: 'n04', displayName: 'StorageTank 1'},
+          {from: 'n04', to: 'n040', displayName: 'Sub Tank 1'},
+          {from: 'n04', to: 'n041', displayName: 'Sub Tank 2'},
           {from: 'n0', to: 'n05', displayName: 'Suction Valve A'},
           {from: 'n0', to: 'n06', displayName: 'Suction Valve B'},
           {from: 'n0', to: 'n07', displayName: 'Suction Valve C'},
@@ -367,7 +369,8 @@ Define how your data will come in using these methods:
 
         ];
 
-        _this._set_ctlSelector($(Polymer.dom(_this.root).querySelector('#columnBrowser')));
+        var selector = $(Polymer.dom(_this.root).querySelector('#columnBrowser'));
+        _this._set_ctlSelector(selector);
         _this.updateDataProperty(rows, _this._jqElementId,
           {
             IDField: 'to',

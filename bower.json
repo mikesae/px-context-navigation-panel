@@ -17,7 +17,9 @@
   "dependencies": {
     "polymer": "^v1.5.0",
     "px-spinner": "https://github.com/predixdev/px-spinner.git#~0.3.0",
-    "px-theme": "https://github.com/PredixDev/px-theme.git#~v0.8.0"
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~v0.8.0",
+    "jquery-ui": "^1.12.0",
+    "jquery": "^3.1.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#~v1.1.0",
