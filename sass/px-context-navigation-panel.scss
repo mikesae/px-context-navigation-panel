@@ -1,3 +1,5 @@
+@import "px-context-navigation-panel-predix";
+
 $listItemButtonWidth: 30px;
 $listItemArrowOffset: 60px;
 $listItemHeight: 38px;
@@ -83,11 +85,6 @@ $GEInspira: "ge-inspira";
   font-family: $GEInspira, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-ul#columnBrowser-list {
-  -webkit-padding-start: 0;
-  -moz-padding-start: 0;
-}
-
 .dd-wrapper {
   background: #2B2B2B;
   color: #222;
@@ -102,6 +99,9 @@ ul#columnBrowser-list {
     height: calc(100% - 46px);
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-padding-start: 0;
+    -moz-padding-start: 0;
+    margin-left: 0;
     &.dd-menu-scroll {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
