@@ -63,9 +63,9 @@ Define how your data will come in using these methods:
               <i class="fa fa-caret-down"></i>
             </h1>
             <ul class="list-inline list-inline--delimited">
-              <!-- <template is="dom-repeat" items="{{openedBreadcrumbs}}"> -->
+              <!--<template is="dom-repeat" items="{{openedBreadcrumbs}}">-->
               <li>{{selectedItemParent}}</li>
-              <!-- </template> -->
+              <!--</template>-->
             </ul>
           </div>
         </header>
@@ -82,17 +82,17 @@ Define how your data will come in using these methods:
               <div class="demo-container" id="columnBrowser">
                 <px-spinner id="theSpinner">finished></px-spinner>
               </div>
+            </div>
+            <!-- Avoid ruler being part of the structure but being within a container that can enforce its relative size -->
+            <div class="ruler">
+              <!-- Use this as a ruler/measuring-stick to measure the true minimum width. -->
+            </div>
+            <!-- this overlay is for the spinner -->
+            <div class="overlay" id="theOverlay"></div>
           </div>
-          <!-- Avoid ruler being part of the structure but being within a container that can enforce its relative size -->
-          <div class="ruler">
-            <!-- Use this as a ruler/measuring-stick to measure the true minimum width. -->
-          </div>
-          <!-- this overlay is for the spinner -->
-          <div class="overlay" id ="theOverlay"></div>
         </div>
       </div>
     </div>
-      </div>
   </template>
 </dom-module>
 
@@ -106,11 +106,11 @@ Define how your data will come in using these methods:
          * long as it has the notion of a 'display label' in it.
          *
          * @type {String Optional}
-         * @default "name"
+         * @default "displayName"
          */
         labelField: {
           type: String,
-          value: "name"
+          value: "displayName"
         },
         /**
          * contains the selected item data
@@ -367,6 +367,11 @@ Define how your data will come in using these methods:
             LabelField: 'displayName',
             RootParentID: ''
           })
+        // Repopulate the openedItemName and Breadcrumbs if we have a directContext
+        if (_this.selectedItem && _this.selectedItem.name) {
+          _this.configureBreadcrumbs();
+          _this.openedItemName = _this.selectedItem.name;
+        }
       },
 
       adjustForScrollbar: function () {
@@ -429,17 +434,16 @@ Define how your data will come in using these methods:
        * @private
        **/
       setContext: function (assetLabel) {
-        var path = '';
-        this.breadcrumbs.forEach(function (item) {
-          path += item.name + ' > ';
-        });
-        path += assetLabel;
+        var _this = this;
+        _this.set('selectedItem', {name: assetLabel});
+
         //me.setProperty("Breadcrumb", path);
         //widgetJqElement.triggerHandler("ContextSet");
         //widgetJqElement.triggerHandler("SelectedItemChanged");
 
         // remove context special active state
         $('.nav a.special-active').removeClass("special-active");
+        _this.openClickHandler();
       },
 
       /**
@@ -476,7 +480,6 @@ Define how your data will come in using these methods:
               var currentBreadcrumb = me.getProperty('Breadcrumb');
               if ((currentBreadcrumb === undefined ) || (currentBreadcrumb === '')) {
                 _this.setContext(label);
-                _this.set('selectedItem', label);
               }
               _this._set_firstAsset(nodeId);
             }
@@ -491,13 +494,13 @@ Define how your data will come in using these methods:
       /**
        * @private
        **/
-      contextClickHandler: function () {
+      setupContextClickHandler: function () {
         var _this = this;
-        $('.drilldownitem > li').click(function () {
+        $('.drilldownitem > li').click(function (evt) {
+          evt.stopPropagation();
           var text = $(this).text();
           if (text !== '') {
             _this.setContext(text);
-            _this.set('selectedItem', text);
           }
         });
       },
@@ -509,7 +512,7 @@ Define how your data will come in using these methods:
         var _this = this;
         var ctlSelectorList = $('#' + _this._jqElementId + '-list', _this._ctlSelector);
 
-        _this.contextClickHandler();
+        _this.setupContextClickHandler();
 
         var $selectedElements = null;
         var unselectAll = function () {
@@ -546,8 +549,6 @@ Define how your data will come in using these methods:
 
         $('.drilldownitem > li', _this._ctlSelector).click(function (event) {
           var node = event.currentTarget.parentNode;
-
-          _this.contextClickHandler();
           selectElementsOf('#' + node.id + '.drilldownitem', _this._ctlSelector);
         });
 
@@ -583,7 +584,7 @@ Define how your data will come in using these methods:
         });
 
         $('.btn.btn-navigate-back', _this._ctlSelector).click(function () {
-          window.setTimeout(function() {
+          window.setTimeout(function () {
             _this.popBreadcrumb();
           }, 200);
         });
@@ -595,7 +596,6 @@ Define how your data will come in using these methods:
             if ((this.offsetWidth < this.scrollWidth) && !element.attr('title')) {
               element.attr('title', element.text());
             }
-            _this.contextClickHandler();
           });
 
         // listener for closing the context selector if it's open and you click outside of it
@@ -663,7 +663,48 @@ Define how your data will come in using these methods:
       toggleColumnBrowser: function () {
         this.showColumnBrowser = !this.showColumnBrowser;
         this.spinner('hide');
-      }
+      },
+
+      /**
+       * @param {Object} item
+       * @return {String} Display label for given item
+       * @private
+       */
+      getItemLabel: function(item) {
+        return item ? item[this.labelField] || '' : '';
+      },
+
+      /**
+       * Event listener on 'open' button of open-able items, listener is registered from the template
+       *
+       * @private
+       */
+      openClickHandler: function () {
+        if (this.selectedItem && this.handlers.itemOpenHandler) {
+          this.configureBreadcrumbs();
+          this.openedItemName = this.selectedItem.name;
+          this.toggleColumnBrowser();
+          this.handlers.itemOpenHandler(this.selectedItem, this.openedBreadcrumbs);
+        }
+      },
+      /**
+       * Configure the breadcrumb trail from both the parentNode and/or the selected name.
+       *
+       * @private
+       */
+      configureBreadcrumbs: function () {
+        var i,
+          len = this.breadcrumbs.length,
+          breadcrumbName;
+
+        this.openedBreadcrumbs = [];
+        for (i = 0; i < len; i++) {
+          breadcrumbName = this.getItemLabel(this.breadcrumbs[i]);
+          this.push('openedBreadcrumbs', breadcrumbName);
+        }
+        //set the selected item's parent for the sudo breadcrumb right below the selected item.
+        this.selectedItemParent = this.openedBreadcrumbs[this.openedBreadcrumbs.length - 1];
+      },
     })
   ;
 </script>
