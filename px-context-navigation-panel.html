@@ -72,7 +72,7 @@ Define how your data will come in using these methods:
         <div id="ruler" class$="{{isItemHidden(showColumnBrowser)}} flex flex--col">
           <div class$="{{isItemHidden(showColumnBrowser)}} flex flex--col">
             <ul class="breadcrumbs list-inline list-inline--delimited u-pv-">
-              <template is="dom-repeat" id="breadcrumbs" items="{{_breadcrumbStack}}">
+              <template is="dom-repeat" id="breadcrumbs" items="{{breadcrumbs}}">
                 <li class$="u-pv--">
                   <span class="breadcrumb" on-click="handleBreadcrumbClick">{{item.name}}</span>
                 </li>
@@ -288,7 +288,7 @@ Define how your data will come in using these methods:
          * @default []
          * @private
          */
-        _breadcrumbStack: {
+        breadcrumbs: {
           type: Array,
           value: function () {
             return [];
@@ -413,16 +413,15 @@ Define how your data will come in using these methods:
        * @private
        **/
       popBreadcrumb: function () {
-        var breadcrumb = this.pop('_breadcrumbStack');
+        this.pop('breadcrumbs');
         this.adjustForScrollbar();
-        return breadcrumb;
       },
 
       /**
        * @private
        **/
       pushBreadcrumb: function (name, id) {
-        this.push('_breadcrumbStack', {name: name, id: id});
+        this.push('breadcrumbs', {name: name, id: id});
         this.adjustForScrollbar();
       },
 
@@ -431,7 +430,7 @@ Define how your data will come in using these methods:
        **/
       setContext: function (assetLabel) {
         var path = '';
-        this._breadcrumbStack.forEach(function (item) {
+        this.breadcrumbs.forEach(function (item) {
           path += item.name + ' > ';
         });
         path += assetLabel;
@@ -477,7 +476,7 @@ Define how your data will come in using these methods:
               var currentBreadcrumb = me.getProperty('Breadcrumb');
               if ((currentBreadcrumb === undefined ) || (currentBreadcrumb === '')) {
                 _this.setContext(label);
-                _this.selectItem(label);
+                _this.set('selectedItem', label);
               }
               _this._set_firstAsset(nodeId);
             }
@@ -498,7 +497,7 @@ Define how your data will come in using these methods:
           var text = $(this).text();
           if (text !== '') {
             _this.setContext(text);
-            _this.selectItem(text);
+            _this.set('selectedItem', text);
           }
         });
       },
@@ -557,7 +556,6 @@ Define how your data will come in using these methods:
         $('.drilldownitem.dd-parent-a > .btn.btn-navigate', _this._ctlSelector)
           .click(function (event) {
             var itemName = event.currentTarget.parentElement.innerText;
-            _this.popBreadcrumb();
             _this.pushBreadcrumb(itemName, event.currentTarget.parentElement.id);
             mseDownNavButton = false;
           })
@@ -585,7 +583,9 @@ Define how your data will come in using these methods:
         });
 
         $('.btn.btn-navigate-back', _this._ctlSelector).click(function () {
-          window.setTimeout(this.popBreadcrumb, 200);
+          window.setTimeout(function() {
+            _this.popBreadcrumb();
+          }, 200);
         });
 
         $('.drilldownitem li', _this._ctlSelector)

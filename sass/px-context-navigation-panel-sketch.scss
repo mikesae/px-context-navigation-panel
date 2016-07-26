@@ -124,7 +124,7 @@ header {
   padding-left: $inuit-base-spacing-unit;
   li {
     line-height: 1.4;
-    &:nth-child(2):before {
+    &:nth-child(1):before {
       content: " "!important;
       width: 0;
     }
