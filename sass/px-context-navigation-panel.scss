@@ -15,7 +15,7 @@ $btnHoverColor: #575757;
 $layoutPanelBackgroundColor: rgba(20, 20, 20, 0.7);
 $layoutItemActiveBackgroundColor: rgba(0, 54, 102, 0.7);
 $iconFontSize: 28px;
-$GEInspira: "ge-inspira";
+$GEInspira: "GE Inspira Sans";
 
 @mixin no-select() {
   -webkit-touch-callout: none;
@@ -164,8 +164,6 @@ $GEInspira: "ge-inspira";
     }
     i {
       font-size: $iconFontSize;
-      font-weight: bold;
-      line-height: $iconFontSize - 6px;
     }
   }
   .btn-prev {
