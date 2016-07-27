@@ -263,14 +263,7 @@ Define how your data will come in using these methods:
          ***/
         _ctlSelector: {
           type: Object,
-          readOnly: true
-        },
-        /**
-         * @private
-         **/
-        _firstAsset: {
-          type: String,
-          readOnly: true
+          value: function() { return {}; }
         },
 
         /**
@@ -358,8 +351,7 @@ Define how your data will come in using these methods:
 
         ];
 
-        var selector = $(Polymer.dom(_this.root).querySelector('#columnBrowser'));
-        _this._set_ctlSelector(selector);
+        _this._ctlSelector = $(Polymer.dom(_this.root).querySelector('#columnBrowser'));
         _this.updateDataProperty(rows, _this._jqElementId,
           {
             IDField: 'to',
@@ -435,7 +427,7 @@ Define how your data will come in using these methods:
        **/
       setContext: function (assetLabel) {
         var _this = this;
-        _this.set('selectedItem', {name: assetLabel});
+        _this.selectedItem = { name: assetLabel};
 
         //me.setProperty("Breadcrumb", path);
         //widgetJqElement.triggerHandler("ContextSet");
@@ -473,19 +465,7 @@ Define how your data will come in using these methods:
             }
             var nodeId = childID.replace(/\s/g, '');
             newNode = $("<li></li>").html('<div class="drilldownitem" id="' + nodeId + '" data-key="' + childID + '"><li>' + label + '</li></div>');
-
-            if (this.firstChild === undefined) {
-              this.firstChild = childID;
-              // check if breadcrumb is empty
-              var currentBreadcrumb = me.getProperty('Breadcrumb');
-              if ((currentBreadcrumb === undefined ) || (currentBreadcrumb === '')) {
-                _this.setContext(label);
-              }
-              _this._set_firstAsset(nodeId);
-            }
-
             newNode.appendTo(appendObj);
-
             this.loadChildren(newNode, rootParentID, parentFieldName, IDFieldName, labelFieldName, childID, rows);
           }
         }
@@ -536,7 +516,6 @@ Define how your data will come in using these methods:
             linkType: 'backButton',
             includeHdr: false
           });
-        selectElementsOf('#' + _this._firstAsset + '.drilldownitem', _this._ctlSelector);
 
         // hover effect where the icon changes
         $('.drilldownitem').on("mouseover touchstart", function () {
@@ -547,9 +526,9 @@ Define how your data will come in using these methods:
           $(this).find('.btn .icon-ico_chevron_left_sm').toggleClass("geip-icon-ico_lite-arrow-prev_sm").toggleClass("icon-ico_chevron_left_sm");
         });
 
-        $('.drilldownitem > li', _this._ctlSelector).click(function (event) {
+        $('.drilldownitem > li', _this._ctlSelector).click(function () {
           var node = event.currentTarget.parentNode;
-          selectElementsOf('#' + node.id + '.drilldownitem', _this._ctlSelector);
+          selectElementsOf('#' + node.id + '.drilldownitem');
         });
 
         var mseDownNavButton = false;
