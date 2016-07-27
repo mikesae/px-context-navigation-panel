@@ -335,21 +335,110 @@ Define how your data will come in using these methods:
        */
       contextChanged: function () {
         var _this = this;
-        var rows = [
-          {from: '', to: 'n0', displayName: 'Finished Water Pump Station'},
-          {from: 'n0', to: 'n00', displayName: 'Displacement Pump 1A'},
-          {from: 'n0', to: 'n01', displayName: 'Displacement Pump 1B'},
-          {from: 'n0', to: 'n02', displayName: 'Displacement Pump 1C'},
-          {from: 'n0', to: 'n03', displayName: 'Displacement Pump 1D'},
-          {from: 'n0', to: 'n04', displayName: 'StorageTank 1'},
-          {from: 'n04', to: 'n040', displayName: 'Sub Tank 1'},
-          {from: 'n04', to: 'n041', displayName: 'Sub Tank 2'},
-          {from: 'n0', to: 'n05', displayName: 'Suction Valve A'},
-          {from: 'n0', to: 'n06', displayName: 'Suction Valve B'},
-          {from: 'n0', to: 'n07', displayName: 'Suction Valve C'},
-          {from: 'n0', to: 'n08', displayName: 'Suction Valve D'},
 
-        ];
+        var convertContextData = function(children, parentId) {
+          var result = [];
+          var i, child;
+
+          for (i = 0; i < children.length; i += 1) {
+            child = children[i];
+            result.push({ from: parentId, to: child.identifier, displayName: child.name, isOpenable: child.isOpenable});
+            if (child.children) {
+              result = result.concat(convertContextData(child.children, child.identifier));
+            }
+          }
+          return result;
+        };
+
+        var contextData = {
+          "data": [
+            {
+              "identifier": "001-1",
+              "name": "Lots of Children",
+              "isOpenable": true,
+              "hasChildren": true
+            },
+            {
+              "identifier": "001-2",
+              "name": "Deep nested",
+              "isOpenable": true,
+              "children": [
+                {
+                  "identifier": "001-2a",
+                  "name": "Nested Child 1",
+                  "isOpenable": true,
+                  "children": [
+                    {
+                      "identifier": "001-2aa",
+                      "name": "Nested Grandchild 1",
+                      "isOpenable": true,
+                      "children": [
+                        {
+                          "identifier": "001-2aba",
+                          "name": "Nested Great Grandchild 1",
+                          "isOpenable": true
+                        },
+                        {
+                          "identifier": "001-2abb",
+                          "name": "Nested Great Grandchild 2",
+                          "isOpenable": true
+                        },
+                        {
+                          "identifier": "001-2abc",
+                          "name": "Nested Great Grandchild 3",
+                          "isOpenable": true,
+                          "selectedAsset": true
+                        }
+                      ],
+                      "meta": {
+                        "parentId": "001-2ab"
+                      }
+                    },
+                    {
+                      "identifier": "001-2ab",
+                      "name": "Nested Grandchild 2",
+                      "isOpenable": true
+                    },
+                    {
+                      "identifier": "001-2ac",
+                      "name": "Nested Grandchild 3",
+                      "isOpenable": true
+                    }
+                  ],
+                  "meta": {
+                    "parentId": "001-2a"
+                  }
+                },
+                {
+                  "identifier": "001-2b",
+                  "name": "Nested Child 2",
+                  "isOpenable": true
+                },
+                {
+                  "identifier": "001-2c",
+                  "name": "Nested Child 3",
+                  "isOpenable": true
+                }
+              ],
+              "meta": {
+                "parentId": "001-2"
+              }
+            },
+            {
+              "identifier": "001-3",
+              "name": "Nothing Below Me",
+              "isOpenable": true
+            },
+            {
+              "identifier": "001-4",
+              "name": "Nothing Below, Not openable"
+            }
+          ],
+          "meta": {
+            "parentId": null
+          }
+        };
+        var rows = convertContextData(contextData.data, '');
 
         _this._ctlSelector = $(Polymer.dom(_this.root).querySelector('#columnBrowser'));
         _this.updateDataProperty(rows, _this._jqElementId,
