@@ -39,12 +39,11 @@
     </p>
   </article>
 
-    <iron-ajax url="directContext.json" last-response="{{browserContext}}" auto></iron-ajax>
-    <!-- <iron-ajax url="directContext.json" last-response="{{browserContext}}" auto></iron-ajax> -->
+    <iron-ajax url="directContext.json" last-response="{{navigationContext}}" auto></iron-ajax>
     <px-context-navigation-panel
       label-field="name"
       id-field="identifier"
-      browser-context="{{browserContext}}"
+      navigation-context="{{navigationContext}}"
       show-chevron="true">
     </px-context-navigation-panel>
   </template>
@@ -86,9 +85,9 @@
   }
 
   window.addEventListener('WebComponentsReady', function() {
-    var colBrowser = document.querySelector('px-context-navigation-panel');
-    colBrowser.handlers = {
-      getChildren: function(parent, newIndex) {
+    var navPanel = document.querySelector('px-context-navigation-panel');
+    navPanel.handlers = {
+      getChildren: function(parent) {
         return demoGetChildren(parent);
       },
       itemOpenHandler: function(context) {

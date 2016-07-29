@@ -4,7 +4,7 @@ px-context-navigation-panel is a single panel navigation component.
 
 ## Overview
 
-px-context-navigation-panel is a hierarchical tree navigation component that uses a single panel of cascading lists in columns to allow multiple levels of the hierarchy to be open at once, and provide a visual representation of the current location. Menu items that are `openable` are given an Open button that upon selection chooses the item and closes the navigation, returning it to it's initial state: A drop-down and breadcrumb that display the menu's last-selected state.
+px-context-navigation-panel is a hierarchical tree navigation component that uses a single panel of sliding lists in columns, and provides a visual representation of the current location. All menu items are openable and clicking them chooses the item and closes the navigation, returning it to it's initial state: A drop-down and breadcrumb that display the menu's last-selected state.
 
 ## Usage
 
@@ -33,16 +33,12 @@ Second, import the component to your application with the following tag in your 
 Finally, use the component in your application:
 
 ```
-<iron-ajax url="<URL.json>" last-response="{{browserContext}}" auto></iron-ajax>
-<px-context-navigation-panel browserContext={{browserContext}}></px-context-navigation-panel>
+<iron-ajax url="<URL.json>" last-response="{{navigationContext}}" auto></iron-ajax>
+<px-context-navigation-panel navigation-context={{navigationContext}}></px-context-navigation-panel>
 ```
 
 <br />
 <hr />
-
-## documentation
-
-Read the full API and view the demo [here](https://predixdev.github.io/px-context-navigation-panel).
 
 ## Local Development
 
