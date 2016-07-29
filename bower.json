@@ -1,6 +1,6 @@
 {
   "name": "px-context-navigation-panel",
-  "version": "0.11.5",
+  "version": "0.11.6",
   "main": [
     "px-context-navigation-panel.html"
   ],

@@ -61,9 +61,9 @@ Define how your data will come in using these methods:
               <i class="fa fa-caret-down"></i>
             </h1>
             <ul class="list-inline list-inline--delimited">
-              <!--<template is="dom-repeat" items="{{openedBreadcrumbs}}">-->
-              <li>{{selectedItemParent}}</li>
-              <!--</template>-->
+              <template is="dom-repeat" items="{{openedBreadcrumbs}}">
+                <li>{{item}}</li>
+              </template>
             </ul>
           </div>
         </header>
@@ -104,11 +104,11 @@ Define how your data will come in using these methods:
          * long as it has the notion of a 'display label' in it.
          *
          * @type {String Optional}
-         * @default "displayName"
+         * @default "name"
          */
         labelField: {
           type: String,
-          value: "displayName"
+          value: "name"
         },
         /**
          * contains the selected item data
@@ -340,7 +340,7 @@ Define how your data will come in using these methods:
 
           for (i = 0; i < numChildren; i += 1) {
             child = children[i];
-            result.push({ from: parentId, to: child.identifier, displayName: child.name, isOpenable: child.isOpenable});
+            result.push({ from: parentId, to: child.identifier, name : child.name, isOpenable: child.isOpenable});
             if (child.children) {
               result = result.concat(transformContextData(child.children, child.identifier));
             }
@@ -356,7 +356,7 @@ Define how your data will come in using these methods:
           {
             IDField: 'to',
             ParentIDField: 'from',
-            LabelField: 'displayName',
+            LabelField: 'name',
             RootParentID: ''
           });
         // Repopulate the openedItemName and Breadcrumbs if we have a directContext
