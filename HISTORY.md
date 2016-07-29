@@ -1,3 +1,26 @@
+v1.0.4
+====================
+* added image to readme, removed watch, added view on github
+
+v1.0.3
+====================
+* updated gh-pages script to vulcanize demo
+
+v1.0.2
+====================
+* Add import and config of px-iconography-design (again)
+* Add import and config of px-typography-design (again)
+* removed importQ.html from ignore
+
+v1.0.1
+====================
+* added new demo
+
+v1.0.0
+====================
+* Add import and config of px-iconography-design
+* Add import and config of px-typography-design
+
 v0.10.0
 ====================
 * Upgrade to Polymer 1.5.0
