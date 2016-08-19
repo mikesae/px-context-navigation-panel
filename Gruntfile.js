@@ -24,7 +24,8 @@ module.exports = function (grunt) {
         dist: {
           files: {
             'css/noprefix/px-context-navigation-panel-sketch.css': 'sass/px-context-navigation-panel-sketch.scss',
-            'css/noprefix/px-context-navigation-panel.css': 'sass/px-context-navigation-panel.scss'
+            'css/noprefix/px-context-navigation-panel.css': 'sass/px-context-navigation-panel.scss',
+            'css/noprefix/px-context-navigation-panel-demo.css': 'sass/px-context-navigation-panel-demo.scss'
           }
         }
       },

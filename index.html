@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>px-context-browser Demo</title>
-  <link rel="stylesheet" type="text/css" href="css/px-context-browser-demo.css"/>
+  <title>px-context-navigation-panel Demo</title>
+  <link rel="stylesheet" type="text/css" href="css/px-context-navigation-panel-demo.css"/>
   <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
   <script src="../webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="../px-theme/px-theme.html"/>
@@ -12,7 +12,7 @@
   <link rel="import" href="../px-tabs/px-tab-set.html" />
   <link rel="import" href="../iron-ajax/iron-ajax.html" />
   <link rel="import" href="../px-polymer-font-awesome/polymer-font-awesome.html" />
-  <link rel="import" href="px-context-browser.html"/>
+  <link rel="import" href="px-context-navigation-panel.html"/>
   <link rel="import" href="importQ.html"/>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="import" href="../px-demo-snippet/px-demo-snippet.html">
@@ -28,8 +28,8 @@
   <template id="just-for-demo" is="dom-bind" >
     <!-- description -->
     <div class="hero u-p++ text--shadow">
-      <a class="actionable flex flex--right flex--middle" href="https://github.com/PredixDev/px-context-browser" target="_blank"><iron-icon class="menu__open" icon="fa:fa-github"></iron-icon>View on Github</a>
-  		<h1 class="delta">px-context-browser</h1>
+      <a class="actionable flex flex--right flex--middle" href="https://github.com/mikesae/px-context-navigation-panel" target="_blank"><iron-icon class="menu__open" icon="fa:fa-github"></iron-icon>View on Github</a>
+  		<h1 class="delta">px-context-navigation-panel</h1>
   		<p>
         The context browser allows the user to drill down through a hierarchical menu in order to switch the context of the overall view.<br />
         Examples of possible contexts include specific locations organized geographically, physical assets organized by model or other classification, or employees organized by department or function.<br />
@@ -37,9 +37,9 @@
         Selecting an item in the context browser causes the children of that item to show up in the next panel over, and also causes a button to appear within that selected row that allows the user to submit/save that context, which also re-collapses the browser.<br />
   		</p>
   		<div class="flex">
-  			<img class="u-mr--" src="https://img.shields.io/travis/PredixDev/px-context-browser.svg?style=flat-square" alt="Travis"/>
-  			<img class="u-mr--" src="https://img.shields.io/bower/v/px-context-browser.svg?style=flat-square" alt="Bower"/>
-  			<img class="u-mr--" src="https://img.shields.io/github/issues-raw/PredixDev/px-context-browser.svg?style=flat-square" alt="Issues"/>
+  			<img class="u-mr--" src="https://img.shields.io/travis/PredixDev/px-context-navigation-panel.svg?style=flat-square" alt="Travis"/>
+  			<img class="u-mr--" src="https://img.shields.io/bower/v/px-context-navigation-panel.svg?style=flat-square" alt="Bower"/>
+  			<img class="u-mr--" src="https://img.shields.io/github/issues-raw/PredixDev/px-context-navigation-panel.svg?style=flat-square" alt="Issues"/>
   		</div>
   	</div>
     <br />
@@ -65,34 +65,28 @@
               <div class="u-mb-">Label Field: <input class="text-input" type="text" placeholder="{{item.labelField}}" value="{{item.labelField::input}}" /></div>
               <div class="u-mb-">Opened Item Name: <input class="text-input" type="text" placeholder="{{item.openedItemName}}" value="{{item.openedItemName::input}}" /></div>
               <div class="flex u-mb-">
-                <input id="showChevron{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.showChevron::change}}">
-                <label for$="showChevron{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
-                <div class="u-ml-">Show Chevron</div>
-              </div>
-              <div class="flex u-mb-">
-                <input id="showColumnBrowser{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.showColumnBrowser::change}}">
-                <label for$="showColumnBrowser{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
-                <div class="u-ml-">Show Column Browser</div>
+                <input id="showContextNavigationPanel{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.showContextNavigationPanel::change}}">
+                <label for$="showContextNavigationPanel{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                <div class="u-ml-">Show Panel</div>
               </div>
             </div>
             <div class="demoContainer u-mr++">
               <!-- demo -->
               <div class="flex flex--col">
                 <div class="flex__item demo u-ph+ u-pb+ u-mt++">
-                  <px-context-browser
+                  <px-context-navigation-panel
                     label-field="[[item.labelField]]"
                     id-field="[[item.idField]]"
-                    browser-context="[[getData(index)]]"
-                    show-chevron="[[item.showChevron]]"
-                    show-column-browser="[[item.showColumnBrowser]]"
+                    navigation-context="[[getData(index)]]"
+                    show-context-navigation-panel="[[item.showContextNavigationPanel]]"
                     opened-item-name="[[item.openedItemName]]"
-                    ></px-context-browser>
+                    ></px-context-navigation-panel>
                   </div>
                 </div>
                 <div class="flex__item">
                   <px-demo-snippet
                     element-properties=[[item]]
-                    element-name="px-context-browser">
+                    element-name="px-context-navigation-panel">
                   </px-demo-snippet>
                 </div>
               </div>
@@ -101,7 +95,7 @@
           <div class="apiContainer">
             <div class="flex flex--col api u-mt++" >
               <div>
-                <px-api-viewer source="px-context-browser"></px-api-viewer>
+                <px-api-viewer source="px-context-navigation-panel"></px-api-viewer>
               </div>
             </div>
           </div>
@@ -140,17 +134,15 @@ window.addEventListener('WebComponentsReady', function() {
       optionsArray = [
         {
           labelField:"name",
-          idField:"identifier",
-          showChevron:true,
+          idField:"id",
           openedItemName: "Select Context",
-          showColumnBrowser: false
+          showContextNavigationPanel: false
         },
         {
           labelField:"name",
-          idField:"identifier",
-          showChevron:true,
+          idField:"id",
           openedItemName: "Select Context",
-          showColumnBrowser: false
+          showContextNavigationPanel: false
         }
       ],
       indexPlusOne = function(num) {
@@ -266,10 +258,10 @@ window.addEventListener('WebComponentsReady', function() {
 
 
   window.addEventListener('contextBrowserClosing', function() {
-    template.set('optionsArray.0.showColumnBrowser', false);
+    template.set('optionsArray.0.showContextNavigationPanel', false);
   });
   window.addEventListener('contextBrowserOpening', function() {
-    template.set('optionsArray.0.showColumnBrowser', true);
+    template.set('optionsArray.0.showContextNavigationPanel', true);
   });
 
   template.selected = "0";
@@ -318,7 +310,7 @@ window.addEventListener('WebComponentsReady', function() {
   //we have to wait until the light dom of pax-tabs is loaded. don't do this in your app ;)
   window.setTimeout(function() {
     var pxTabs = Polymer.dom(document).querySelectorAll('px-tab-pages'),
-        colBrowser = Polymer.dom(pxTabs[0]).querySelectorAll('px-context-browser');
+        colBrowser = Polymer.dom(pxTabs[0]).querySelectorAll('px-context-navigation-panel');
         colBrowser.forEach(function(browser) {
           browser.handlers = {
             getChildren: function(parent, newIndex) {

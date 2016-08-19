@@ -243,18 +243,6 @@ Define how your data will come in using these methods:
           type: String,
           value: ''
         },
-        /**
-         * This attributes allows you to use the "hasChildren" or "children" properties inside your json, to show the chevron which indicates this item has children.When this attribute is true, it checks for the "hasChildren" or "children" properties inside your json, and if they exist, the chevron - which indicates this item has children - is shown.
-         * @type {Boolean Optional}
-         *
-         * @default false
-         *
-         */
-        showChevron: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true
-        },
 
         /**
          * @private
@@ -385,7 +373,7 @@ Define how your data will come in using these methods:
         if (rows) {
           _this._ctlSelector.empty();
           _this._ctlSelector.append('<ul id="' + domElementId + '-list"></ul>');
-          var list = $('#' + domElementId + '-list');
+          var list = _this._ctlSelector.children().first();
 
           var IDFieldName = widgetProperties.IDField;
           var parentFieldName = widgetProperties.ParentIDField;

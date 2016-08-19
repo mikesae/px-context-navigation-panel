@@ -20,34 +20,34 @@ Predix branding rules go in px-rangepicker-predix.scss, not in this file.
 */
 
 //Settings
-@import "px-colors-design/_settings.colors.scss";
+@import "../bower_components/px-colors-design/_settings.colors.scss";
 
 // Generic
-@import "px-normalize-design/_generic.normalize.scss";
-@import "px-box-sizing-design/_generic.box-sizing.scss";
-@import "px-helpers-design/_generic.helpers.scss";
+@import "../bower_components/px-normalize-design/_generic.normalize.scss";
+@import "../bower_components/px-box-sizing-design/_generic.box-sizing.scss";
+@import "../bower_components/px-helpers-design/_generic.helpers.scss";
 $predixBlue: #2886af;
 // Base
-@import "px-flexbox-design/_base.flexbox.scss";
-@import "px-viewport-design/_base.viewport.scss";
-@import "px-typography-design/_base.typography.scss";
-@import "px-headings-design/_base.headings.scss";
+@import "../bower_components/px-flexbox-design/_base.flexbox.scss";
+@import "../bower_components/px-viewport-design/_base.viewport.scss";
+@import "../bower_components/px-typography-design/_base.typography.scss";
+@import "../bower_components/px-headings-design/_base.headings.scss";
 $inuit-enable-code--inline : true;
-@import "px-code-design/_base.code.scss";
+@import "../bower_components/px-code-design/_base.code.scss";
 
 // Objects
 $actionable : true;
-@import "px-actionable-text-icons-design/_objects.actionable.scss";
+@import "../bower_components/px-actionable-text-icons-design/_objects.actionable.scss";
 
 $inuit-enable-toggle--small : true;
-@import "px-toggle-design/_objects.toggle.scss";
+@import "../bower_components/px-toggle-design/_objects.toggle.scss";
 
 $inuit-enable-inline-fields : true;
 $inuit-enable-input--regular : true;
-@import "px-forms-design/_base.forms.scss";
+@import "../bower_components/px-forms-design/_base.forms.scss";
 
 $inuit-enable-list-inline--delimited : true;
-@import "px-list-inline-design/_objects.list-inline.scss";
+@import "../bower_components/px-list-inline-design/_objects.list-inline.scss";
 
 // Component
 .mega-demo{
@@ -171,7 +171,7 @@ $inuit-enable-paddings--tiny : true;
 $inuit-enable-paddings--small : true;
 $inuit-enable-paddings--large : true;
 $inuit-enable-paddings--huge : true;
-@import "px-spacing-design/_trumps.spacing.scss";
-@import "inuit-clearfix/_trumps.clearfix.scss";
-@import "px-spacing-responsive-design/_trumps.spacing-responsive.scss";
-@import "px-widths-responsive-design/_trumps.widths-responsive.scss";
+@import "../bower_components/px-spacing-design/_trumps.spacing.scss";
+@import "../bower_components/inuit-clearfix/_trumps.clearfix.scss";
+@import "../bower_components/px-spacing-responsive-design/_trumps.spacing-responsive.scss";
+@import "../bower_components/px-widths-responsive-design/_trumps.widths-responsive.scss";
