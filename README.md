@@ -20,6 +20,8 @@ Node, npm and bower are necessary to install the component and dependencies. web
 
 First, install the component via bower on the command line.
 
+
+
 ```
 bower install px-context-navigation-panel --save
 ```
